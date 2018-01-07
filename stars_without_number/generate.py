@@ -1,8 +1,32 @@
 from random import randrange
 from npc_generator import generator as npc_gen
+from patron_generator import generator as patron_gen
 
 
-def roll_on_generator(generator=npc_gen, table_number=None):
+generators = [
+    npc_gen,
+    patron_gen,
+]
+
+
+def list_generators():
+    options = {
+        number: generator
+        for number, generator in enumerate(generators)
+    }
+    options_text = [
+        str(number) + ') ' + generator['name']
+        for number, generator in options.items()
+    ]
+    options_text.append('Select generator')
+    text_block = '\n'.join(options_text)
+    print(text_block)
+    generator_id = int(input('===>'))
+    generator = options[generator_id]
+    roll_on_generator(generator)
+
+
+def roll_on_generator(generator, table_number=None):
     while True:
         output = generator['name'] + '\n'
         results = {
